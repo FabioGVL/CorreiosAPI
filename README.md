@@ -30,7 +30,7 @@ A suíte de testes foi projetada para cobrir dois pilares fundamentais da integr
 * Uso da flag `failOnStatusCode: false` para permitir a inspeção detalhada de payloads de erro sem interromper o fluxo de execução do Cypress.
 
 
-## Ferramentas e ambientes utilizados para execução do projeto:
+## Tecnologias e ambientes utilizados para execução do projeto:
 - Cypress v10.11.0
 - Node JS v20.15.0
 - Google Chrome v126.0.6478.126
