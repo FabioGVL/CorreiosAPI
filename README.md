@@ -1,7 +1,25 @@
 # Escopo do Projeto
 Este documento detalha a estratégia de automação de testes para a API de consulta de CEPs (utilizando o endpoint de integração B2W/Americanas). O foco principal é validar a precisão dos dados geográficos retornados e a resiliência do back-end diante de entradas malformadas ou inexistentes, garantindo uma integração segura para serviços de logística e checkout.
 
-## 1. Arquitetura e estrutura
+## Escopo do Teste
+
+### 1. Mapeamento de Features:
+* **Consulta de Logradouro:** Endpoint para busca de endereços através de códigos postais (CEP).
+* **Base de Dados Geográfica:** Integração com os registros oficiais de endereçamento brasileiro.
+
+### 2. Features Testadas:
+* **Consulta de CEPs Válidos:** Validação de retorno 200 OK para endereços de diferentes regiões do Brasil.
+* **Tratamento de CEPs Inexistentes:** Verificação do status code e mensagem de erro para requisições inválidas.
+
+### 3. Massa de Dados para Teste:
+* **Lista de Parâmetros:** Conjunto de CEPs reais diversificados e strings alfanuméricas para testes de erro e resiliência.
+
+### 4. Tipos de Testes Utilizados:
+* **Testes de Funcionalidade:** Garantir que os endpoints da API estão operando e retornando os dados conforme o esperado.
+* **Testes de Integração:** Garantir que a comunicação entre o cliente e o servidor ocorra sem falhas.
+* **Testes de Contrato:** Verificar se a estrutura dos dados retornados (JSON) segue o padrão técnico esperado.
+
+## Arquitetura e estrutura
 A suíte de testes foi projetada para cobrir dois pilares fundamentais da integridade de APIs:
 
 * Validação de CEPs reais abrangendo todas as regiões do Brasil (Sul, Sudeste, Centro-Oeste, Nordeste e Norte). O teste garante que campos como `address`, `city` e `state` correspondam exatamente à base oficial.
@@ -11,15 +29,25 @@ A suíte de testes foi projetada para cobrir dois pilares fundamentais da integr
     * Verificação da diferenciação correta entre erros (`404 Not Found`) e falhas de processamento interno (`500 Internal Server Error`).
 * Uso da flag `failOnStatusCode: false` para permitir a inspeção detalhada de payloads de erro sem interromper o fluxo de execução do Cypress.
 
-## 2. Passos para reproduzir o teste
 
-### 2.1 Efetuando o download e descompactando o projeto
+## Ferramentas e ambientes utilizados para execução do projeto:
+- Cypress v10.11.0
+- Node JS v20.15.0
+- Google Chrome v126.0.6478.126
+- Windows 11 v23H2
+- Postman
+- GIT
+
+
+## Passos para reproduzir o teste
+
+### 1. Efetuando o download e descompactando o projeto
 - No GitHub, clique em "code".
 - Clique em "Download Zip" para fazer o download do arquivo deste teste.
 - No seu computador, localize o download efetuado.
 - Descompacte o arquivo.
 
-### 2.2 Configurando o projeto no VSCode e executando o teste
+### 1.2 Configurando o projeto no VSCode e executando o teste
 - Abra o VSCode.
 - Clique em `Arquivo/File`.
 - Clique em `Abrir pasta/Open folder`.
@@ -32,12 +60,3 @@ A suíte de testes foi projetada para cobrir dois pilares fundamentais da integr
 - Na próxima página selecione o navegador desejado.
 - Na próxima página selecione o teste que deseja executar e a automação será executada.
 - Também é possível executar o teste através do comando `npx cypress run`. O teste rodará dentro do próprio VSCode e serão gerados vídeos dos resultados dos testes. Os vídeos ficarão armazenados no destino `Cypress > Vídeos`.
-
-## 3. Ferramentas e ambientes utilizados para execução do projeto:
-- Cypress v10.11.0
-- Node JS v20.15.0
-- Google Chrome v126.0.6478.126
-- Windows 11 v23H2
-- Postman
-- GIT
-
