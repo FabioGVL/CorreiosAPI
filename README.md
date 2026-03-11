@@ -10,12 +10,12 @@ Este documento detalha a estratégia de automação de testes para a API de cons
 ## 3. ARQUITETURA E ESTRUTURA
 A suíte de testes foi projetada para cobrir dois pilares fundamentais da integridade de APIs:
 
-* **Geographic Coverage (Caminho Feliz):** Validação de CEPs reais abrangendo todas as regiões do Brasil (Sul, Sudeste, Centro-Oeste, Nordeste e Norte). O teste garante que campos como `address`, `city` e `state` correspondam exatamente à base oficial.
-* **Robustness & Error Handling:** Testes de cenários negativos para validar como a API lida com:
-    * **Entradas Inválidas:** Formatos alfanuméricos, caracteres especiais e espaços.
-    * **Boundary Testing:** CEPs com excesso ou ausência de caracteres (acima/abaixo de 8 dígitos).
-    * **Status Code Mapping:** Verificação da diferenciação correta entre erros de negócio (`404 Not Found`) e falhas de processamento interno (`500 Internal Server Error`).
-* **Non-Breakable Requests:** Uso da flag `failOnStatusCode: false` para permitir a inspeção detalhada de payloads de erro sem interromper o fluxo de execução do Cypress.
+* Validação de CEPs reais abrangendo todas as regiões do Brasil (Sul, Sudeste, Centro-Oeste, Nordeste e Norte). O teste garante que campos como `address`, `city` e `state` correspondam exatamente à base oficial.
+* Testes de cenários negativos para validar como a API lida com:
+    * Formatos alfanuméricos, caracteres especiais e espaços.
+    * CEPs com excesso ou ausência de caracteres (acima/abaixo de 8 dígitos).
+    * Verificação da diferenciação correta entre erros (`404 Not Found`) e falhas de processamento interno (`500 Internal Server Error`).
+* Uso da flag `failOnStatusCode: false` para permitir a inspeção detalhada de payloads de erro sem interromper o fluxo de execução do Cypress.
 
 ## 4. COMO EXECUTAR O PROJETO
 
