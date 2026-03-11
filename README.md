@@ -1,6 +1,4 @@
-# PROJETO DE AUTOMAÇÃO: API CORREIOS (CEP INTEGRATION)
-
-## 1. OBJETIVO DO DOCUMENTO
+# Escopo do Projeto
 Este documento detalha a estratégia de automação de testes para a API de consulta de CEPs (utilizando o endpoint de integração B2W/Americanas). O foco principal é validar a precisão dos dados geográficos retornados e a resiliência do back-end diante de entradas malformadas ou inexistentes, garantindo uma integração segura para serviços de logística e checkout.
 
 ## 2. TECNOLOGIAS UTILIZADAS
