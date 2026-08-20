@@ -1,62 +1,113 @@
-# Escopo do Projeto
+[![Cypress Tests](https://github.com/FabioGVL/CorreiosAPI/actions/workflows/CorreiosAPIAutomation.yml/badge.svg)](https://github.com/FabioGVL/CorreiosAPI/actions/workflows/CorreiosAPIAutomation.yml)
+
+# Automação de Testes de API - Consulta de CEP (B2W / Integração)
+
+## Escopo do Produto
+
 Este documento detalha a estratégia de automação de testes para a API de consulta de CEPs (utilizando o endpoint de integração B2W/Americanas). O foco principal é validar a precisão dos dados geográficos retornados e a resiliência do back-end diante de entradas malformadas ou inexistentes, garantindo uma integração segura para serviços de logística e checkout.
 
 ## Escopo do Teste
 
-### 1. Mapeamento de Features:
-* **Consulta de Logradouro:** Endpoint para busca de endereços através de códigos postais (CEP).
-* **Base de Dados Geográfica:** Integração com os registros oficiais de endereçamento brasileiro.
+A estratégia foca em validar a integridade geográfica dos dados de endereçamento e o comportamento do sistema perante cenários de erro e resiliência de parâmetros.
 
-### 2. Features Testadas:
-* **Consulta de CEPs Válidos:** Validação de retorno 200 OK para endereços de diferentes regiões do Brasil.
-* **Tratamento de CEPs Inexistentes:** Verificação do status code e mensagem de erro para requisições inválidas.
+* **Mapeamento de Features:** Consulta de Logradouro (busca de endereços através de códigos postais - CEP) e Base de Dados Geográfica (integração com os registros oficiais de endereçamento brasileiro).
+* **Features Testadas:** Consulta de CEPs Válidos (validação de retorno 200 OK para endereços de diferentes regiões do Brasil) e Tratamento de CEPs Inexistentes (verificação de status code e mensagem de erro para requisições inválidas).
+* **Massa de Dados:** Conjunto de parâmetros com CEPs reais diversificados e strings alfanuméricas para testes de erro e resiliência.
+* **Tipos de Testes:**
+  * **Testes de Funcionalidade:** Garantir que os endpoints da API estão operando e retornando os dados conforme o esperado.
+  * **Testes de Integração:** Garantir que a comunicação entre o cliente e o servidor ocorra sem falhas de protocolo ou conexão.
+  * **Testes de Contrato:** Verificar se a estrutura dos dados retornados (JSON) segue o padrão técnico esperado.
 
-### 3. Massa de Dados para Teste:
-* **Lista de Parâmetros:** Conjunto de CEPs reais diversificados e strings alfanuméricas para testes de erro e resiliência.
+## Arquitetura e Estrutura
 
-### 4. Tipos de Testes Utilizados:
-* **Testes de Funcionalidade:** Garantir que os endpoints da API estão operando e retornando os dados conforme o esperado.
-* **Testes de Integração:** Garantir que a comunicação entre o cliente e o servidor ocorra sem falhas.
-* **Testes de Contrato:** Verificar se a estrutura dos dados retornados (JSON) segue o padrão técnico esperado.
+O projeto foi organizado para garantir a separação entre a lógica de teste e a configuração das requisições, facilitando a manutenção e a escalabilidade.
 
-## Arquitetura e estrutura
-A suíte de testes foi projetada para cobrir dois pilares fundamentais da integridade de APIs:
+- **Padrão de Projeto:** Estrutura de testes baseada no Cypress para automação de requisições à API, utilizando `cy.request()` e `failOnStatusCode: false` para permitir a inspeção detalhada de payloads de erro. A estratégia contempla validação regional por meio de CEPs reais de todas as regiões do Brasil, verificando campos como `address`, `city` e `state`, além de cenários negativos e de resiliência envolvendo dados alfanuméricos, caracteres especiais, espaços e CEPs com quantidade de caracteres acima ou abaixo de 8. Também são realizadas validações de Status Codes, diferenciando erros de rota (`404 Not Found`) de falhas de processamento interno (`500 Internal Server Error`).
+- **Tecnologias e Ambiente:** `Cypress` | `JavaScript (ES6+)` | `Node.js` | `Git Actions` | `Git` | `Windows 11` | `Chrome` | `Postman`
+---
 
-* Validação de CEPs reais abrangendo todas as regiões do Brasil (Sul, Sudeste, Centro-Oeste, Nordeste e Norte). O teste garante que campos como `address`, `city` e `state` correspondam exatamente à base oficial.
-* Testes de cenários negativos para validar como a API lida com:
-    * Formatos alfanuméricos, caracteres especiais e espaços.
-    * CEPs com excesso ou ausência de caracteres (acima/abaixo de 8 dígitos).
-    * Verificação da diferenciação correta entre erros (`404 Not Found`) e falhas de processamento interno (`500 Internal Server Error`).
-* Uso da flag `failOnStatusCode: false` para permitir a inspeção detalhada de payloads de erro sem interromper o fluxo de execução do Cypress.
+# Passos para Configurar e Reproduzir o Projeto
 
+Siga o guia abaixo para clonar, configurar o ambiente e executar a suíte de testes automatizados em sua máquina local.
 
-## Tecnologias e ambientes utilizados para execução do projeto:
-- Cypress v10.11.0
-- Node JS v20.15.0
-- Google Chrome v126.0.6478.126
-- Windows 11 v23H2
-- Postman
-- GIT
+---
 
+## Pré-requisitos
 
-## Passos para reproduzir o teste
+Certifique-se de possuir as seguintes ferramentas instaladas em seu ambiente:
 
-### 1. Efetuando o download e descompactando o projeto
-- No GitHub, clique em "code".
-- Clique em "Download Zip" para fazer o download do arquivo deste teste.
-- No seu computador, localize o download efetuado.
-- Descompacte o arquivo.
+- [Node.js](https://nodejs.org/) — versão 20.15.0 ou superior recomendada
+- [Git](https://git-scm.com/)
+- Editor de código de sua preferência, como o [VS Code](https://code.visualstudio.com/)
 
-### 1.2 Configurando o projeto no VSCode e executando o teste
-- Abra o VSCode.
-- Clique em `Arquivo/File`.
-- Clique em `Abrir pasta/Open folder`.
-- Escolha a pasta do arquivo descompactado (`CorreiosAPI-master`).
-- Após o projeto ser aberto no VSCode, navegue até `Cypress > E2E`.
-- Os testes estarão dentro das pastas `UI`.
-- No terminal do Cypress digite `npx cypress open`. Caso necessário, instale o Cypress através do comando `npm install cypress`.
-- Aguarde o Cypress abrir.
-- Selecione a opção `E2E Testing`.
-- Na próxima página selecione o navegador desejado.
-- Na próxima página selecione o teste que deseja executar e a automação será executada.
-- Também é possível executar o teste através do comando `npx cypress run`. O teste rodará dentro do próprio VSCode e serão gerados vídeos dos resultados dos testes. Os vídeos ficarão armazenados no destino `Cypress > Vídeos`.
+---
+
+## Obtendo o Código do Projeto
+
+Você pode obter os arquivos do projeto de duas formas.
+
+### Opção A: Clonando via Git (Recomendado)
+
+Abra o terminal e execute o comando abaixo para clonar o repositório:
+
+```bash
+git clone https://github.com/FabioGVL/CorreiosAPI.git
+```
+
+Em seguida, navegue para dentro da pasta do projeto:
+
+```bash
+cd CorreiosAPI
+```
+
+### Opção B: Baixando via ZIP
+
+1. Acesse a página do repositório no GitHub.
+2. Clique no botão verde **Code**.
+3. Selecione **Download ZIP**.
+4. Extraia o conteúdo do arquivo compactado em uma pasta no seu computador.
+5. Abra o VS Code, vá em **Arquivo > Abrir Pasta** e selecione a pasta descompactada (`CorreiosAPI-master`).
+
+---
+
+## Instalando as Dependências
+
+Com o terminal aberto na raiz do projeto, execute o comando abaixo para instalar o Cypress e as dependências necessárias:
+
+```bash
+npm install
+```
+
+---
+
+## Executando os Testes
+
+O projeto suporta diferentes modos de execução do Cypress.
+
+### Modo Interativo (Cypress App)
+
+Abre a interface gráfica do Cypress para acompanhar a execução visualmente:
+
+```bash
+npx cypress open
+```
+
+Na interface, selecione **E2E Testing**, escolha o navegador desejado e clique no arquivo de teste correspondente para iniciar.
+
+### Modo Headless (Linha de Comando)
+
+Executa os testes diretamente pelo terminal de forma rápida:
+
+```bash
+npx cypress run
+```
+
+---
+
+## Resumo dos Comandos
+
+| **Objetivo** | **Comando** |
+| -------------------------------------- | ------------------ |
+| **Instalar dependências / Cypress** | `npm install` |
+| **Abrir interface gráfica do Cypress** | `npx cypress open` |
+| **Executar testes em modo Headless** | `npx cypress run` |
